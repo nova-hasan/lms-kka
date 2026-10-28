@@ -115,7 +115,6 @@
         <button class="filter" data-filter="File PDF">Buka File PDF</button>
       </div>
       <div class="courses" id="course-list"></div> 
-      <button>Buka File PDF</button>
     </section>
 
     <section class="two-col">
