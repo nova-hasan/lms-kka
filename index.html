@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="LMS Koding dan Kecerdasan Artifisial untuk murid SMP kelas 8">
+  <title>Kelas KKA 8 | Belajar Koding & AI</title>
+  <style>
+    :root {
+      --navy: #172554; --blue: #2563eb; --sky: #dbeafe;
+      --purple: #7c3aed; --ink: #172033; --muted: #64748b;
+      --paper: #f6f8ff; --white: #fff; --line: #e5eaf5;
+      --green: #15803d; --orange: #ea580c;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, sans-serif; color: var(--ink); background: var(--paper); line-height: 1.6; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .topbar { background: var(--navy); color: white; padding: 14px 5%; display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+    .brand { font-weight: 800; letter-spacing: .2px; }
+    .brand span { color: #93c5fd; }
+    .topbar a { color: white; text-decoration: none; font-size: .95rem; }
+    .hero { padding: 56px 5% 46px; color: white; background: linear-gradient(125deg, #1d4ed8, #6d28d9); }
+    .hero-inner { max-width: 1120px; margin: auto; display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; align-items: center; }
+    .eyebrow { display: inline-block; padding: 5px 12px; background: #ffffff22; border: 1px solid #ffffff40; border-radius: 99px; font-size: .86rem; }
+    h1 { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.12; margin: 16px 0; }
+    .hero p { max-width: 650px; color: #eef2ff; }
+    .hero-card { background: #ffffff18; border: 1px solid #ffffff40; padding: 24px; border-radius: 22px; }
+    .hero-card .big { font-size: 3rem; }
+    .btn { border: 0; border-radius: 12px; padding: 11px 17px; font-weight: 750; display: inline-block; text-decoration: none; }
+    .btn-light { background: white; color: #1d4ed8; }
+    .btn-blue { background: var(--blue); color: white; }
+    .btn-soft { background: var(--sky); color: #1d4ed8; }
+    main { max-width: 1120px; margin: auto; padding: 30px 5% 60px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin: 18px 0; }
+    h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); color: var(--navy); }
+    .muted { color: var(--muted); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: -4px 0 34px; }
+    .stat { background: white; border: 1px solid var(--line); padding: 17px; border-radius: 16px; }
+    .stat strong { display: block; font-size: 1.5rem; color: var(--blue); }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 20px; }
+    .filter { border: 1px solid var(--line); border-radius: 99px; background: white; padding: 8px 14px; color: var(--ink); }
+    .filter.active { background: var(--navy); color: white; border-color: var(--navy); }
+    .courses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .course { background: white; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 5px 18px #17255408; }
+    .course-banner { padding: 22px; min-height: 130px; font-size: 2.4rem; display: flex; align-items: center; justify-content: space-between; }
+    .b1 { background: #dbeafe; } .b2 { background: #ede9fe; } .b3 { background: #dcfce7; }
+    .b4 { background: #ffedd5; } .b5 { background: #fce7f3; } .b6 { background: #e0f2fe; }
+    .course-body { padding: 18px; display: flex; flex-direction: column; flex: 1; }
+    .tag { color: var(--blue); font-size: .78rem; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; }
+    .course h3 { margin: 6px 0; line-height: 1.3; }
+    .course p { color: var(--muted); font-size: .94rem; margin: 8px 0 18px; }
+    .course .btn { margin-top: auto; text-align: center; }
+    .two-col { display: grid; grid-template-columns: 1.1fr .9fr; gap: 18px; margin-top: 38px; }
+    .panel { background: white; border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+    .panel h3 { margin-top: 0; }
+    .checklist { padding: 0; list-style: none; }
+    .checklist li { padding: 9px 0; border-bottom: 1px solid var(--line); }
+    .checklist li:last-child { border-bottom: 0; }
+    .checklist input { margin-right: 8px; accent-color: var(--blue); }
+    .quiz-q { margin: 15px 0; padding: 14px; border-radius: 12px; background: #f8fafc; }
+    .quiz-q label { display: block; padding: 5px 0; }
+    .feedback { font-weight: 700; margin-top: 12px; }
+    footer { background: var(--navy); color: #dbeafe; padding: 24px 5%; text-align: center; }
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: #0f172acc; padding: 18px; z-index: 5; }
+    .modal.open { display: flex; }
+    .modal-content { width: min(720px, 100%); max-height: 88vh; overflow: auto; background: white; padding: 26px; border-radius: 20px; }
+    .modal-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .close { border: 0; background: #eef2ff; border-radius: 10px; padding: 8px 12px; }
+    .lesson-content h4 { color: var(--blue); margin-bottom: 4px; }
+    .lesson-content li { margin-bottom: 7px; }
+    @media (max-width: 800px) { .hero-inner, .two-col { grid-template-columns: 1fr; } .courses { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .courses, .stats { grid-template-columns: 1fr; } .topbar { align-items: flex-start; flex-direction: column; } .hero { padding-top: 38px; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">💻 KELAS <span>KKA 8</span></div>
+    <nav><a href="#materi">Materi</a> &nbsp; · &nbsp; <a href="#latihan">Latihan</a> &nbsp; · &nbsp; <a href="#progres">Progres</a></nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">Ruang Belajar Digital • SMP Kelas 8</span>
+        <h1>Jelajahi Koding dan Kecerdasan Artifisial!</h1>
+        <p>Belajar berpikir logis, menyusun instruksi, mengolah data, membuat program, dan memahami AI melalui materi ringkas serta latihan interaktif.</p>
+        <a class="btn btn-light" href="#materi">Mulai Belajar →</a>
+      </div>
+      <div class="hero-card">
+        <div class="big">🚀 🧠</div>
+        <h3>Belajar sambil berkarya</h3>
+        <p>Pelajari konsep, coba latihan, lalu terapkan dalam proyek sederhana.</p>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section class="stats" aria-label="Ringkasan kelas">
+      <div class="stat"><strong>6</strong><span>Topik pembelajaran</span></div>
+      <div class="stat"><strong id="done-count">0/6</strong><span>Materi ditandai selesai</span></div>
+      <div class="stat"><strong id="quiz-score">—</strong><span>Skor kuis terakhir</span></div>
+    </section>
+
+    <section id="materi">
+      <div class="section-head">
+        <div><h2>Materi Pembelajaran</h2><div class="muted">Pilih topik untuk membuka ringkasan dan aktivitas.</div></div>
+      </div>
+      <div class="filters" aria-label="Filter materi">
+        <button class="filter active" data-filter="Semua">Semua</button>
+        <button class="filter" data-filter="Koding">Koding</button>
+        <button class="filter" data-filter="Data">Data</button>
+        <button class="filter" data-filter="AI">Kecerdasan Artifisial</button>
+      </div>
+      <div class="courses" id="course-list"></div>
+    </section>
+
+    <section class="two-col">
+      <div class="panel" id="progres">
+        <h2>📌 Progres Belajarku</h2>
+        <p class="muted">Centang materi yang sudah dipelajari. Progres disimpan di browser/perangkat ini.</p>
+        <ul class="checklist" id="progress-list"></ul>
+        <button class="btn btn-soft" id="reset-progress">Atur ulang progres</button>
+      </div>
+      <div class="panel" id="latihan">
+        <h2>🧩 Kuis Cepat</h2>
+        <p class="muted">Pilih satu jawaban pada setiap soal, lalu periksa hasilnya.</p>
+        <form id="quiz-form">
+          <div class="quiz-q">
+            <strong>1. Apa tujuan algoritma?</strong>
+            <label><input type="radio" name="q1" value="a"> Menghias tampilan komputer</label>
+            <label><input type="radio" name="q1" value="b"> Menyusun langkah-langkah untuk menyelesaikan masalah</label>
+            <label><input type="radio" name="q1" value="c"> Menambah ukuran layar</label>
+          </div>
+          <div class="quiz-q">
+            <strong>2. Data yang tidak konsisten sebaiknya…</strong>
+            <label><input type="radio" name="q2" value="a"> Dibiarkan selalu apa adanya</label>
+            <label><input type="radio" name="q2" value="b"> Dihapus semuanya</label>
+            <label><input type="radio" name="q2" value="c"> Diperiksa dan dibersihkan sesuai aturan</label>
+          </div>
+          <div class="quiz-q">
+            <strong>3. Kecerdasan Artifisial (AI) adalah teknologi yang dapat…</strong>
+            <label><input type="radio" name="q3" value="a"> Membantu melakukan tugas yang biasanya membutuhkan kemampuan cerdas</label>
+            <label><input type="radio" name="q3" value="b"> Menjamin semua informasi di internet benar</label>
+            <label><input type="radio" name="q3" value="c"> Menggantikan kebutuhan memeriksa informasi</label>
+          </div>
+          <button class="btn btn-blue" type="submit">Periksa Jawaban</button>
+          <div class="feedback" id="quiz-feedback" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>KELAS KKA 8</strong><br>
+    Belajar kreatif, berpikir kritis, dan menggunakan teknologi secara bertanggung jawab.<br>
+    <small>Website pembelajaran contoh • Materi dapat disesuaikan oleh guru.</small>
+  </footer>
+
+  <div class="modal" id="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lesson-title">
+    <div class="modal-content">
+      <div class="modal-top"><div><div class="tag" id="lesson-category"></div><h2 id="lesson-title"></h2></div><button class="close" id="close-modal" aria-label="Tutup materi">Tutup ✕</button></div>
+      <div class="lesson-content" id="lesson-text"></div>
+      <button class="btn btn-blue" id="mark-done">Tandai Selesai ✓</button>
+    </div>
+  </div>
+
+  <script>
+    const lessons = [
+      {id:1, category:"Koding", icon:"🧩", banner:"b1", title:"Berpikir Komputasional", desc:"Memecahkan masalah dengan cara terstruktur.", time:"2 aktivitas",
+       goals:["Memahami cara memecahkan masalah secara sistematis.","Mengenali dekomposisi, pengenalan pola, abstraksi, dan algoritma."],
+       content:`<h4>Apa itu berpikir komputasional?</h4><p>Cara menyelesaikan masalah secara logis dan terstruktur. Cara ini dapat digunakan meskipun kita tidak sedang memakai komputer.</p><h4>Empat komponen</h4><ul><li><b>Dekomposisi:</b> memecah masalah besar menjadi bagian kecil.</li><li><b>Pengenalan pola:</b> menemukan kesamaan atau pengulangan.</li><li><b>Abstraksi:</b> fokus pada informasi yang penting.</li><li><b>Algoritma:</b> menyusun langkah penyelesaian.</li></ul><h4>Aktivitas</h4><p>Buat langkah-langkah menyiapkan tas sekolah, lalu periksa apakah urutannya jelas dan lengkap.</p>`},
+      {id:2, category:"Koding", icon:"🔢", banner:"b2", title:"Algoritma dan Instruksi", desc:"Menyusun langkah yang jelas, urut, dan efektif.", time:"Latihan langkah",
+       goals:["Menjelaskan pengertian algoritma.","Memperbaiki instruksi yang ambigu."],
+       content:`<h4>Apa itu algoritma?</h4><p>Algoritma adalah urutan langkah yang logis untuk menyelesaikan suatu tugas atau masalah.</p><h4>Ciri instruksi yang baik</h4><ul><li>Jelas dan tidak membingungkan.</li><li>Memiliki urutan yang masuk akal.</li><li>Dapat dilakukan dan diuji.</li></ul><h4>Contoh</h4><ol><li>Siapkan gelas.</li><li>Tuangkan air minum.</li><li>Letakkan gelas di tempat aman.</li></ol><h4>Aktivitas</h4><p>Tulis instruksi menyalakan komputer sekolah dengan memperhatikan aturan keselamatan dan petunjuk guru.</p>`},
+      {id:3, category:"Data", icon:"🧹", banner:"b3", title:"Pembersihan Data", desc:"Memeriksa data kosong, ganda, dan tidak konsisten.", time:"Studi kasus",
+       goals:["Menemukan masalah sederhana pada data.","Menentukan cara memperbaiki data secara bertanggung jawab."],
+       content:`<h4>Mengapa data perlu dibersihkan?</h4><p>Data yang tidak rapi dapat menyebabkan kesimpulan keliru. Pembersihan data membantu meningkatkan kualitas data sebelum dianalisis.</p><h4>Masalah yang umum</h4><ul><li>Data kosong atau tidak lengkap.</li><li>Baris data yang tercatat dua kali.</li><li>Penulisan kategori tidak konsisten, misalnya “Laki-laki” dan “L”.</li><li>Nilai yang tidak masuk akal atau salah format.</li></ul><h4>Langkah kerja</h4><ol><li>Periksa data.</li><li>Tandai masalah.</li><li>Perbaiki berdasarkan aturan yang jelas.</li><li>Periksa kembali hasilnya.</li></ol><p><b>Ingat:</b> jangan menebak data yang hilang. Tanyakan atau tandai sebagai belum diketahui.</p>`},
+      {id:4, category:"Koding", icon:"🐱", banner:"b4", title:"Pemrograman Scratch", desc:"Mengenal urutan, perulangan, kondisi, dan event.", time:"Praktik sederhana",
+       goals:["Mengenali blok dasar Scratch.","Merancang program sederhana dengan urutan instruksi."],
+       content:`<h4>Apa itu Scratch?</h4><p>Scratch adalah lingkungan pemrograman visual yang menggunakan blok-blok perintah.</p><h4>Blok yang sering digunakan</h4><ul><li><b>Event:</b> menjalankan program saat peristiwa terjadi.</li><li><b>Motion:</b> menggerakkan sprite.</li><li><b>Loop:</b> mengulang perintah.</li><li><b>Condition:</b> memilih tindakan berdasarkan kondisi.</li></ul><h4>Contoh rancangan</h4><ol><li>Ketika bendera hijau diklik.</li><li>Ulangi 6 kali.</li><li>Gerakkan sprite 10 langkah.</li><li>Ubah posisi atau kostum sesuai tujuan.</li></ol><p>Buka <a href="https://scratch.mit.edu/" target="_blank" rel="noopener">Scratch resmi</a> untuk mencoba setelah memahami instruksi guru.</p>`},
+      {id:5, category:"AI", icon:"🧠", banner:"b5", title:"Mengenal Kecerdasan Artifisial", desc:"Memahami kemampuan, manfaat, dan keterbatasan AI.", time:"Diskusi kelas",
+       goals:["Menjelaskan AI dengan bahasa sendiri.","Mengenali manfaat dan keterbatasan AI."],
+       content:`<h4>Apa itu AI?</h4><p>Kecerdasan Artifisial (Artificial Intelligence/AI) adalah teknologi yang memungkinkan sistem melakukan tugas yang biasanya memerlukan kemampuan seperti mengenali pola, memahami bahasa, atau membuat prediksi.</p><h4>Contoh penggunaan</h4><ul><li>Rekomendasi video atau musik.</li><li>Pengenalan suara dan gambar.</li><li>Asisten digital untuk membantu belajar.</li></ul><h4>Hal yang perlu diingat</h4><ul><li>AI bisa menghasilkan jawaban yang salah.</li><li>Periksa informasi dengan sumber tepercaya.</li><li>Jangan memasukkan data pribadi atau rahasia.</li><li>Gunakan AI dengan jujur dan sesuai aturan guru.</li></ul><h4>Aktivitas</h4><p>Diskusikan satu manfaat AI dan satu risiko penggunaannya di sekolah.</p>`},
+      {id:6, category:"AI", icon:"🛡️", banner:"b6", title:"Etika dan Keamanan Digital", desc:"Menggunakan teknologi dengan aman, sopan, dan kritis.", time:"Refleksi",
+       goals:["Menerapkan kebiasaan aman saat belajar daring.","Menilai informasi dan hasil AI secara kritis."],
+       content:`<h4>Prinsip penggunaan teknologi</h4><ul><li>Lindungi kata sandi dan data pribadi.</li><li>Gunakan bahasa yang sopan dan hormati orang lain.</li><li>Periksa sumber, tanggal, dan bukti sebuah informasi.</li><li>Hormati hak cipta dan cantumkan sumber.</li><li>Jelaskan bantuan AI yang digunakan sesuai aturan tugas.</li></ul><h4>Jika menemukan informasi meragukan</h4><ol><li>Jangan langsung membagikannya.</li><li>Bandingkan dengan sumber tepercaya lainnya.</li><li>Tanyakan kepada guru atau orang dewasa tepercaya jika perlu.</li></ol><h4>Refleksi</h4><p>Tuliskan tiga aturan yang akan kamu terapkan saat menggunakan internet dan AI untuk belajar.</p>`}
+    ];
+
+    const storageKey = "kelasKKA8ProgressV1";
+    const getDone = () => {
+      try { return JSON.parse(localStorage.getItem(storageKey) || "[]"); }
+      catch { return []; }
+    };
+    let done = getDone();
+    let activeLesson = null;
+    const courseList = document.getElementById("course-list");
+    const progressList = document.getElementById("progress-list");
+
+    function renderCourses(filter = "Semua") {
+      const shown = lessons.filter(l => filter === "Semua" || l.category === filter);
+      courseList.innerHTML = shown.map(l => `
+        <article class="course">
+          <div class="course-banner ${l.banner}"><span>${l.icon}</span><span style="font-size:.85rem;font-weight:800;color:#334155">${done.includes(l.id) ? "✓ Selesai" : l.time}</span></div>
+          <div class="course-body"><span class="tag">${l.category}</span><h3>${l.title}</h3><p>${l.desc}</p>
+          <button class="btn btn-blue" data-open="${l.id}">Buka Materi →</button></div>
+        </article>`).join("");
+      courseList.querySelectorAll("[data-open]").forEach(btn => btn.addEventListener("click", () => openLesson(Number(btn.dataset.open))));
+    }
+    function renderProgress() {
+      progressList.innerHTML = lessons.map(l => `<li><label><input type="checkbox" data-done="${l.id}" ${done.includes(l.id) ? "checked" : ""}> ${l.icon} ${l.title}</label></li>`).join("");
+      progressList.querySelectorAll("[data-done]").forEach(box => box.addEventListener("change", () => {
+        const id = Number(box.dataset.done);
+        done = box.checked ? [...new Set([...done, id])] : done.filter(x => x !== id);
+        saveProgress();
+      }));
+      document.getElementById("done-count").textContent = `${done.length}/6`;
+    }
+    function saveProgress() {
+      try { localStorage.setItem(storageKey, JSON.stringify(done)); } catch {}
+      renderProgress(); renderCourses(document.querySelector(".filter.active")?.dataset.filter || "Semua");
+    }
+    function openLesson(id) {
+      activeLesson = lessons.find(l => l.id === id);
+      document.getElementById("lesson-category").textContent = activeLesson.category;
+      document.getElementById("lesson-title").textContent = activeLesson.title;
+      document.getElementById("lesson-text").innerHTML = activeLesson.content;
+      document.getElementById("mark-done").textContent = done.includes(id) ? "Sudah Selesai ✓" : "Tandai Selesai ✓";
+      document.getElementById("lesson-modal").classList.add("open");
+    }
+    function closeLesson() { document.getElementById("lesson-modal").classList.remove("open"); }
+    document.querySelectorAll(".filter").forEach(btn => btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active"); renderCourses(btn.dataset.filter);
+    }));
+    document.getElementById("close-modal").addEventListener("click", closeLesson);
+    document.getElementById("lesson-modal").addEventListener("click", e => { if (e.target.id === "lesson-modal") closeLesson(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") closeLesson(); });
+    document.getElementById("mark-done").addEventListener("click", () => {
+      if (activeLesson && !done.includes(activeLesson.id)) { done.push(activeLesson.id); saveProgress(); }
+      document.getElementById("mark-done").textContent = "Sudah Selesai ✓";
+    });
+    document.getElementById("reset-progress").addEventListener("click", () => {
+      if (confirm("Yakin ingin mengatur ulang progres belajar pada perangkat ini?")) { done = []; saveProgress(); }
+    });
+    document.getElementById("quiz-form").addEventListener("submit", e => {
+      e.preventDefault();
+      const answers = {q1:"b", q2:"c", q3:"a"};
+      let score = 0;
+      for (const [q, answer] of Object.entries(answers)) {
+        if (document.querySelector(`input[name="${q}"]:checked`)?.value === answer) score++;
+      }
+      const points = Math.round(score / 3 * 100);
+      document.getElementById("quiz-score").textContent = `${points}/100`;
+      document.getElementById("quiz-feedback").textContent = `Skor kamu ${points}/100 (${score} dari 3 benar). ${score === 3 ? "Hebat, semua benar!" : "Baca kembali materi dan coba lagi, ya!"}`;
+    });
+    renderCourses(); renderProgress();
+  </script>
+</body>
+</html>
